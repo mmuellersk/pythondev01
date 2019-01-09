@@ -1,4 +1,4 @@
 {
-  "inputfolder":"./data/unitdrw",
-  "outfolder": "./build/test01"
+  "inputfolder":"./data/test02",
+  "outfolder": "./build/test02"
 }

@@ -9,10 +9,13 @@ from core.imglib import *
 
 class ContouringFilter :
     def __init__( self, filename, outputfolder ):
+        self.dilateRatio = 0.1
+        self.paddingRatio = 1.4
+
         self.padding = 100
         self.thresholdInit = 254
         self.opening = 20
-        self.dilate = 30
+        self.dilate = 70
         self.blur = 40
         self.threseholdBlur = 130
 
@@ -23,21 +26,25 @@ class ContouringFilter :
         self.imgheight = 100
 
         self.basename = os.path.basename(self.filename).rsplit(".", 1)[0]
-        print(self.basename)
 
         self.inputimg = None
         self.contour = None
 
     def processImage(self):
 
+        outputfilename = os.path.join(self.outputfolder,self.filename.rsplit("/", 1)[-1])
+
         # read input image
         self.inputimg = cv2.imread(self.filename,cv2.IMREAD_UNCHANGED)
         self.originalimg = self.inputimg.copy()
         if hasAlphaChanel(self.inputimg) :
-            inputimg = transformAlpha2White(self.inputimg)
+            self.inputimg = transformAlpha2White(self.inputimg)
 
-        self.imgwidth = inputimg.shape[1]
-        self.imgheight = inputimg.shape[0]
+        self.imgwidth = self.inputimg.shape[1]
+        self.imgheight = self.inputimg.shape[0]
+
+        self.dilate = int(self.imgwidth*self.dilateRatio)
+        self.padding = int(self.dilate*self.paddingRatio)
 
         # make image bigger
         borderimg = cv2.copyMakeBorder(self.inputimg,
@@ -67,11 +74,11 @@ class ContouringFilter :
 
         # get and draw contours
         contourimg, contours, hierarchy = cv2.findContours(finalbinaryimg,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-        contourimg = cv2.drawContours(borderimg, contours, 0, (0,255,0), 2)
+        finalimg = cv2.drawContours(borderimg, contours, 0, (240,240,240), 1)
 
         self.contour = contours[0]
 
-        outputfilename = os.path.join(self.outputfolder,self.filename.rsplit("/", 1)[-1])
+        cv2.imwrite(outputfilename,transformBlack2Alpha(finalimg,finalbinaryimg))
 
 
     def writeSVG(self):
@@ -84,14 +91,11 @@ class ContouringFilter :
         for elem in self.contour:
             polyline.append((str(elem[0][0]),str(elem[0][1])))
 
-        contouringLayer = dwg.add( dwg.g(id='cutting') )
-        contouringLayer.add(dwg.polygon(polyline, stroke='red', stroke_width=1, fill='none'))
-
-
         encoded = base64.b64encode(open(self.filename, "rb").read()).decode()
 
-        imageLayer = dwg.add( dwg.g(id='image') )
-        imageLayer.add(dwg.image(href='data:image/png;base64,{}'.format(encoded),insert=(self.padding,self.padding)))
+        group = dwg.add( dwg.g(id='cutting') )
+        group.add(dwg.image(href='data:image/png;base64,{}'.format(encoded),insert=(self.padding,self.padding)))
+        group.add(dwg.polygon(polyline, stroke='red', stroke_width=1, fill='none'))
 
         outputfilename = os.path.join(self.outputfolder,self.basename+'.svg')
 

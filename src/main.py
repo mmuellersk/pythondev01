@@ -26,7 +26,7 @@ if __name__ == '__main__':
         if item.endswith(".png"):
             filter = ContouringFilter(itemPath, config['outfolder'])
             filter.processImage()
-            filter.writeSVG()
+            #filter.writeSVG()
 
 
 
