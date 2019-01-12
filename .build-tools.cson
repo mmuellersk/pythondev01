@@ -6,8 +6,62 @@ providers: [
         {
           project: "/Volumes/WorkVault01/WorkSarah/sasarah/stickerMaker"
           source: "/Volumes/WorkVault01/WorkSarah/sasarah/stickerMaker/.build-tools.cson"
-          name: "Process"
-          command: "python3 src/main.py cfg_test01.json"
+          name: "Process 3%"
+          command: "python3 src/main.py cfg_stickers_3.json"
+          wd: "."
+          env: {}
+          modifier:
+            shell:
+              command: "bash -c"
+            save_all: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "/Volumes/WorkVault01/WorkSarah/sasarah/stickerMaker"
+          source: "/Volumes/WorkVault01/WorkSarah/sasarah/stickerMaker/.build-tools.cson"
+          name: "Process 4%"
+          command: "python3 src/main.py cfg_stickers_4.json"
+          wd: "."
+          env: {}
+          modifier:
+            shell:
+              command: "bash -c"
+            save_all: {}
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "/Volumes/WorkVault01/WorkSarah/sasarah/stickerMaker"
+          source: "/Volumes/WorkVault01/WorkSarah/sasarah/stickerMaker/.build-tools.cson"
+          name: "Process 10%"
+          command: "python3 src/main.py cfg_stickers_4.json"
           wd: "."
           env: {}
           modifier:

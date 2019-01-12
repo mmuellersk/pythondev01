@@ -25,6 +25,9 @@ if __name__ == '__main__':
         itemPath = os.path.join(config['inputfolder'], item)
         if item.endswith(".png"):
             filter = ContouringFilter(itemPath, config['outfolder'])
+            filter.dilateRatio = config['dilateRatio']
+            filter.blurRatio = config['blurRatio']
+            filter.contourline = config['contourline']
             filter.processImage()
             #filter.writeSVG()
 

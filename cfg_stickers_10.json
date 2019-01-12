@@ -1,0 +1,8 @@
+{
+  "inputfolder":"/Users/matthias.mueller/Google Drive/WorkStickers/01_basic_10/",
+  "outfolder": "/Users/matthias.mueller/Google Drive/WorkStickers/02_final_10/",
+  "dilateRatio": 0.1,
+  "blurRatio": 0.1,
+  "contourline": 1
+
+}
